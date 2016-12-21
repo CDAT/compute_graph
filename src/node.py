@@ -20,6 +20,9 @@ class ComputeNode(object):
         else:
             if name in self.__attrs__:
                 if isNode(value):
+                    deps = value.dependencies()
+                    if self in deps:
+                        raise ValueError("Setting %s's %s to %s creates a cycle in the derivation graph." % (self, name, value))
                     self.__deps__.add(name)
                 elif isNode(self.__attrs__[name]):
                     self.__deps__.remove(name)

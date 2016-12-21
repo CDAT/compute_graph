@@ -25,3 +25,12 @@ class TestComputeNode(unittest.TestCase):
             self.assertTrue(False, "Incorrect dependency order")
         if deps[2] not in (child_node, other_child):
             self.assertTrue(False, "Incorrect dependency order")
+
+    def test_cycle_detection(self):
+        node = compute_graph.ComputeNode(key="hi", other_key=2)
+        child_node = compute_graph.ComputeNode(value=node)
+        other_child = compute_graph.ComputeNode(value=node)
+        last_descendant = compute_graph.ComputeNode(parent=child_node, parent2=other_child)
+
+        with self.assertRaises(ValueError):
+            child_node.value = last_descendant
