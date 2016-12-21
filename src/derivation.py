@@ -24,12 +24,9 @@ def derive_value(node):
     attributes = {}
     deps = []
 
-    for d in node.dependencies():
-        deps.append(derive_value(d))
-
     for a, v in node.__attrs__.iteritems():
         if a in node.__deps__:
-            attributes[a] = deps[v]
+            attributes[a] = v.derive()
         else:
             attributes[a] = v
 

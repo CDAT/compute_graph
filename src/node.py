@@ -18,13 +18,13 @@ class ComputeNode(object):
         if name in self.__slots__:
             super(ComputeNode, self).__setattr__(name, value)
         else:
+            if isNode(value):
+                deps = value.dependencies()
+                if self in deps:
+                    raise ValueError("Setting %s's %s to %s creates a cycle in the derivation graph." % (self, name, value))
+                self.__deps__.add(name)
             if name in self.__attrs__:
-                if isNode(value):
-                    deps = value.dependencies()
-                    if self in deps:
-                        raise ValueError("Setting %s's %s to %s creates a cycle in the derivation graph." % (self, name, value))
-                    self.__deps__.add(name)
-                elif isNode(self.__attrs__[name]):
+                if not isNode(value) and isNode(self.__attrs__[name]):
                     self.__deps__.remove(name)
             self.__attrs__[name] = value
 
@@ -35,7 +35,7 @@ class ComputeNode(object):
         try:
             self.__cache__ = weakref.ref(value)
         except:
-            self.__cache__ = value
+            self.__cache__ = lambda: value
 
     def dependencies(self):
         """
