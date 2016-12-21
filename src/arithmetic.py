@@ -3,11 +3,14 @@ from .derivation import register_computation
 
 NODE_TYPE = "arithmetic"
 
+unary_operators = ["-", "~", "not"]
+binary_operators = ["+", "-", "^", "/", ">>", "<<", "%", "*", "**", "|", "&", ">", "<", ">=", "<=", "!=", "=="]
+
 
 @register_computation(NODE_TYPE)
 def compute(attributes):
     op = attributes["operator"]
-    if op in unary_operators:
+    if "value" in attributes:
         val = attributes["value"]
         if op == "-":
             return -val
@@ -15,6 +18,7 @@ def compute(attributes):
             return ~val
         if op == "not":
             return not val
+        raise ValueError("Expected '%s' to be a unary operator due to presence of 'value' attribute. Operator not found." % op)
     left = attributes["left_value"]
     right = attributes["right_value"]
     if op == "+":
@@ -89,7 +93,7 @@ def compute(attributes):
 
 class ArithmeticOperation(ComputeNode):
     def __init__(self, operator, *values):
-        super(ComputeNode, self).__init__()
+        super(ArithmeticOperation, self).__init__()
 
         self.node_type = NODE_TYPE
         self.node_params = {
@@ -112,7 +116,7 @@ class ArithmeticOperation(ComputeNode):
             del self.node_params["right_value"]
             self.value = values[0]
         elif len(values) == 2:
-            if self.operator in unary_operators:
+            if self.operator not in binary_operators:
                 raise ValueError("Too many values provided for unary operator %s." % operator)
             del self.node_params["value"]
             self.left_value, self.right_value = values

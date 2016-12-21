@@ -25,4 +25,3 @@ class TestComputeNode(unittest.TestCase):
             self.assertTrue(False, "Incorrect dependency order")
         if deps[2] not in (child_node, other_child):
             self.assertTrue(False, "Incorrect dependency order")
-        self.assertEqual(deps[3], last_descendant)

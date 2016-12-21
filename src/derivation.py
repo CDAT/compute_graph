@@ -34,5 +34,5 @@ def derive_value(node):
             attributes[a] = v
 
     v = compute(attributes)
-    node.__cache__ = weakref.ref(v)
+    node.cache(v)
     return v
