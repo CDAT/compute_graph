@@ -6,9 +6,9 @@ def dumpjson(node):
     """
     Takes in a node, returns the JSON string of the derivation tree.
     """
-    sorted_nodes = node.dependencies()
+    sorted_nodes = node.dependencies() + [node]
     serialized_nodes = []
-    for n in node.dependencies():
+    for n in sorted_nodes:
         s = {
             "dependent_attributes": list(n.__deps__),
             "attribute_values": {}
@@ -21,7 +21,8 @@ def dumpjson(node):
             if a not in n.__deps__:
                 s["attribute_values"][a] = n.__attrs__[a]
         serialized_nodes.append(s)
-    return json.dumps({"derivation": s})
+
+    return json.dumps({"derivation": serialized_nodes})
 
 
 def loadjson(jsonstring):
