@@ -34,3 +34,9 @@ class TestComputeNode(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             child_node.value = last_descendant
+
+    def test_dep_removal(self):
+        node = compute_graph.ComputeNode(key="Hi")
+        child = compute_graph.ComputeNode(value=node)
+        child.value = "test"
+        self.assertEqual(len(child.dependencies()), 0)

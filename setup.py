@@ -10,5 +10,6 @@ setup(
   packages=['compute_graph'],
   package_dir={'compute_graph': 'src'},
   test_suite='nose.collector',
-  tests_require=['nose']
+  setup_requires=["nose"],
+  tests_require=['nose', 'coverage']
 )

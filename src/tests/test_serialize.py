@@ -31,8 +31,17 @@ class TestSerialize(unittest.TestCase):
                 "left_value": 11,
                 "right_value": 5
             }
+        },
+        {
+            "dependent_attributes": ["left_value"],
+            "attribute_values": {
+                "node_type": "arithmetic",
+                "operator": "*",
+                "left_value": 0,
+                "right_value": 12
+            }
         }
     ]
 }"""
         obj = compute_graph.loadjson(blob)
-        self.assertEqual(obj.derive(), 2)
+        self.assertEqual(obj.derive(), 24)

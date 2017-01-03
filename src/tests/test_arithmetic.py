@@ -43,3 +43,43 @@ class TestArithmeticOperationNode(unittest.TestCase):
         for op, result in zip(compute_graph.arithmetic.binary_operators, binary_results):
             node = compute_graph.ArithmeticOperation(op, left_value, right_value)
             self.assertEqual(node.derive(), result)
+
+        for op, result in zip(compute_graph.arithmetic.inplace_binary_operators, binary_results):
+            node = compute_graph.ArithmeticOperation(op, left_value, right_value)
+            self.assertEqual(node.derive(), result)
+
+    def test_compute_validations(self):
+        attrs = {
+            "operator": "*",
+            "value": 1
+        }
+        with self.assertRaises(ValueError):
+            compute_graph.arithmetic.compute(attrs)
+        del attrs["value"]
+
+        attrs["operator"] = "failure"
+        attrs["left_value"] = 1
+        attrs["right_value"] = 2
+        with self.assertRaises(ValueError):
+            compute_graph.arithmetic.compute(attrs)
+
+    def test_node_validation(self):
+        # Invalid operator
+        with self.assertRaises(ValueError):
+            n = compute_graph.ArithmeticOperation("blahblahblah")
+
+        # No values
+        with self.assertRaises(ValueError):
+            n = compute_graph.ArithmeticOperation("+")
+
+        # Non unary operator with 1 value
+        with self.assertRaises(ValueError):
+            n = compute_graph.ArithmeticOperation("*", 1)
+
+        # Non-binary operator with 2 values
+        with self.assertRaises(ValueError):
+            n = compute_graph.ArithmeticOperation("not", 2, 3)
+
+        # Too many values
+        with self.assertRaises(ValueError):
+            n = compute_graph.ArithmeticOperation("*", 2, 3, 4)

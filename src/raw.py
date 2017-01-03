@@ -18,5 +18,5 @@ class RawValueNode(ComputeNode):
         try:
             json.dumps(value)
         except:
-            raise ValueError("RawValueNode only supports JSON compatible values; %s is not." % value)
+            raise ValueError("RawValueNode only supports JSON compatible values; %s is not." % type(value))
         self.value = value

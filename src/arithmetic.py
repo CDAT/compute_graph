@@ -5,6 +5,7 @@ NODE_TYPE = "arithmetic"
 
 unary_operators = ["-", "~", "not"]
 binary_operators = ["+", "-", "^", "/", ">>", "<<", "%", "*", "**", "|", "&", ">", "<", ">=", "<=", "!=", "=="]
+inplace_binary_operators = ["+=", "-=", "^=", "/=", ">>=", "<<=", "%=", "*=", "**=", "|=", "&="]
 
 
 @register_computation(NODE_TYPE)
@@ -103,7 +104,7 @@ class ArithmeticOperation(ComputeNode):
             "operator": "Operator used for data transform"
         }
 
-        if operator not in unary_operators and operator not in binary_operators:
+        if operator not in unary_operators and operator not in binary_operators and operator not in inplace_binary_operators:
             raise ValueError("Operator '%s' not recognized." % operator)
 
         self.operator = operator
@@ -116,7 +117,7 @@ class ArithmeticOperation(ComputeNode):
             del self.node_params["right_value"]
             self.value = values[0]
         elif len(values) == 2:
-            if self.operator not in binary_operators:
+            if self.operator not in binary_operators and self.operator not in inplace_binary_operators:
                 raise ValueError("Too many values provided for unary operator %s." % operator)
             del self.node_params["value"]
             self.left_value, self.right_value = values
