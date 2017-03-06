@@ -11,7 +11,9 @@ def dumpjson(node):
     for n in sorted_nodes:
         s = {
             "dependent_attributes": list(n.__deps__),
-            "attribute_values": {}
+            "attribute_values": {},
+            "node_params": n.node_params,
+            "node_type": n.node_type
         }
         for d in n.__deps__:
             dep = n.__attrs__[d]
@@ -38,5 +40,7 @@ def loadjson(jsonstring):
             if a in deps:
                 v = nodes[v]
             setattr(node, a, v)
+        node.node_params = n["node_params"]
+        node.node_type = n["node_type"]
         nodes.append(node)
     return nodes[-1]

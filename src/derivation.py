@@ -12,8 +12,8 @@ def register_computation(node_type):
     return register
 
 
-def compute(attributes):
-    compute_func = __computation_registry__[attributes["node_type"]]
+def compute(node_type, attributes):
+    compute_func = __computation_registry__[node_type]
     return compute_func(attributes)
 
 
@@ -29,7 +29,6 @@ def derive_value(node):
             attributes[a] = v.derive()
         else:
             attributes[a] = v
-
-    v = compute(attributes)
+    v = compute(node.node_type, attributes)
     node.cache(v)
     return v
