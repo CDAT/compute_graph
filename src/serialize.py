@@ -33,14 +33,14 @@ def loadjson(jsonstring):
     """
     serialization = json.loads(jsonstring)
     nodes = []
-    for n in serialization["derivation"]:
+    for _n in serialization["derivation"]:
         node = ComputeNode()
-        deps = n["dependent_attributes"]
-        for a, v in n["attribute_values"].iteritems():
+        deps = _n["dependent_attributes"]
+        for a, v in _n["attribute_values"].iteritems():
             if a in deps:
                 v = nodes[v]
             setattr(node, a, v)
-        node.node_params = n["node_params"]
-        node.node_type = n["node_type"]
+        node.node_params = _n["node_params"]
+        node.node_type = _n["node_type"]
         nodes.append(node)
     return nodes[-1]
