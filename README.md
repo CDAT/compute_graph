@@ -19,8 +19,10 @@ If this is the first time you have done a conda release make sure the following 
 
 To set the version for the release simply edit `conda/meta.yaml` and set the version per semantic versioning rules.
 The `git_tag` should be changed to match what will be in the release in github. This can match the semantic version.
+
 Inside the root of the project directory, run `conda build .`. This will find the project and build the software.
   * _Conda will note that it was told not to upload. Copy down the .tar.bz2 path, we need it later._
+  
 At this point it is a good idea to create an empty environment and give the software a quick test.
   * `conda create -n test_env`
   * `source activate test_env`
@@ -31,7 +33,9 @@ At this point it is a good idea to create an empty environment and give the soft
 #### Uploading
 
 Push the changes to github, and verify that the build passes on CircleCI.
-Create a new [release](https://github.com/CDAT/compute_graph/releases) on github. The tag here must match the `git_tag` in the `meta.yaml` exactly!
+
+Create a new [release](https://github.com/CDAT/compute_graph/releases) on github.
+  * The tag here must match the `git_tag` in the `meta.yaml` exactly!
 
 Run `anaconda -t $TOKEN upload -u cdat $PATH`
   * $TOKEN comes from https://anaconda.org/cdat/settings/access
