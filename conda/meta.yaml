@@ -8,13 +8,13 @@ source:
 
 requirements:
   build:
-    - python
+    - python {{ python }}
     - setuptools
     - nose
     - coverage
 
   run:
-    - python
+    - python {{ python }}
 
 about:
   home: https://github.com/cdat/compute_graph
@@ -22,4 +22,4 @@ about:
   summary: "Library to assemble a Directed Acyclic Graph representing an abstract computation, and execute it."
 
 build:
-    noarch_python: True
+    noarch_python: False

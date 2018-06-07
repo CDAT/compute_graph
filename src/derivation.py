@@ -24,7 +24,7 @@ def derive_value(node):
     attributes = {}
     deps = []
 
-    for a, v in node.__attrs__.iteritems():
+    for a, v in node.__attrs__.items():
         if a in node.__deps__:
             attributes[a] = v.derive()
         else:

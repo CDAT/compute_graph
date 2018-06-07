@@ -36,7 +36,7 @@ def loadjson(jsonstring):
     for _n in serialization["derivation"]:
         node = ComputeNode()
         deps = _n["dependent_attributes"]
-        for a, v in _n["attribute_values"].iteritems():
+        for a, v in _n["attribute_values"].items():
             if a in deps:
                 v = nodes[v]
             setattr(node, a, v)

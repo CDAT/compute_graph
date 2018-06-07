@@ -16,4 +16,4 @@ class TestRawValueNode(unittest.TestCase):
         values = ["string", 1, 3.14159, [1, 2, "hi", 4.5, {"test": "this"}], {"this": "is", "my": "boomstick"}]
         for v in values:
             n = compute_graph.RawValueNode(v)
-            self.assertEquals(v, compute_graph.derive_value(n))
+            self.assertEqual(v, compute_graph.derive_value(n))

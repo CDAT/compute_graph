@@ -13,7 +13,7 @@ class TestSerialize(unittest.TestCase):
         json_blob = compute_graph.dumpjson(eq)
         v = json.loads(json_blob)
         operators = ["/", "*", "**", "=="]
-        for index, operator, cur_step in zip(range(len(operators)), operators, v["derivation"]):
+        for index, operator, cur_step in zip(list(range(len(operators))), operators, v["derivation"]):
             self.assertEqual("arithmetic", cur_step["node_type"])
             self.assertEqual(operator, cur_step["attribute_values"]["operator"])
             if index > 0:

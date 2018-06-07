@@ -1,5 +1,5 @@
 import weakref
-import derivation
+from . import derivation
 
 
 class ComputeNode(object):
@@ -9,7 +9,7 @@ class ComputeNode(object):
     def __init__(self, **attrs):
         self.__attrs__ = attrs
         self.__deps__ = set()
-        for a, v in attrs.iteritems():
+        for a, v in list(attrs.items()):
             if isNode(v):
                 self.__deps__.add(a)
         self.__cache__ = lambda: None
@@ -90,7 +90,7 @@ class ComputeNode(object):
         return dependencies[:-1]
 
     def __repr__(self):
-        args = ["{key}={value}".format(key=key, value=repr(value)) for key, value in self.__attrs__.iteritems()]
+        args = ["{key}={value}".format(key=key, value=repr(value)) for key, value in list(self.__attrs__.items())]
         return "ComputeNode({args})".format(args=", ".join(args))
 
     def derive(self):
@@ -112,7 +112,7 @@ CONTAINER_TYPE = "container_node"
 @derivation.register_computation(CONTAINER_TYPE)
 def compute_container(attributes):
     if attributes["container_type"] == "dict":
-        attrs = {k: v for k, v in attributes.iteritems() if k != "container_type"}
+        attrs = {k: v for k, v in list(attributes.items()) if k != "container_type"}
         return attrs
     elif attributes["container_type"] in ("list", "tuple"):
         vals = []
@@ -131,7 +131,7 @@ class ContainerNode(ComputeNode):
         # Really big containers will become less compact in JSON, but only mildly.
         if isinstance(container, dict):
             self.container_type = "dict"
-            for k, v in container.iteritems():
+            for k, v in list(container.items()):
                 setattr(self, k, v)
         elif isinstance(container, list):
             self.container_type = "list"
