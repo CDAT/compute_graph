@@ -1,25 +1,28 @@
 package:
   name: compute_graph
-  version: 1.1.2
+  version: 1.1.3
 
 source:
-  git_tag: 1.1.2
-  git_url: https://github.com/cdat/compute_graph
+    git_rev: master
+    git_url: https://github.com/cdat/compute_graph
 
 requirements:
   build:
-    - python {{ python }}
+    - python
     - setuptools
     - nose
     - coverage
+    - pip
 
   run:
-    - python {{ python }}
+    - python
+
+build:
+    number: 0
+    noarch: python
+    script: python -m pip install --no-deps --ignore-installed .
 
 about:
   home: https://github.com/cdat/compute_graph
   license: BSD
   summary: "Library to assemble a Directed Acyclic Graph representing an abstract computation, and execute it."
-
-build:
-    noarch_python: False
