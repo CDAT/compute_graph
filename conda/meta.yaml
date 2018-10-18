@@ -8,18 +8,21 @@ source:
 
 requirements:
   build:
-    - python {{ python }}
+    - python
     - setuptools
     - nose
     - coverage
+    - pip
 
   run:
-    - python {{ python }}
+    - python
+
+build:
+    number: 1
+    noarch: python
+    script: python -m pip install --no-deps --ignore-installed
 
 about:
   home: https://github.com/cdat/compute_graph
   license: BSD
   summary: "Library to assemble a Directed Acyclic Graph representing an abstract computation, and execute it."
-
-build:
-    noarch_python: False
